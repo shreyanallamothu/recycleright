@@ -51,10 +51,13 @@ p.hero{
 }
 
 .prediction{
-  font-family: "Pockota";
   background-color: #ffdd5f;
   min-height: 15rem;
   color: #3d2100;
+}
+
+.prediction h2{
+  font-family: "Pockota";
   font-size: 3rem;
   text-align: center;
 }
@@ -62,4 +65,9 @@ p.hero{
 .zip-form{
   display: flex;
   flex-direction: column;
+}
+
+.prediction .gif{
+  max-width: 500px;
+  max-height: 500px;
 }
