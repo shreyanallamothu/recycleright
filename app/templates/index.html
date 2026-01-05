@@ -28,28 +28,40 @@
         </form>
         {%if prediction%}
           <div class="prediction">
-          {%if prediction == "clothes"%}
-            <h2>Yes, you can recycle your clothes!</h2>
-            <img class = "gif" src="../static/clothes.png">
-            <p>This is some boilerpalte text on how you can recycle clpthes.</p>
-          {%endif%}
+            <div class="title">
+              {{ results["title"] }}
+            </div>
+            <div class="content">
+              <img src = "{{ gif_file_path }}" id ="gif">
+              <div class="paragraph">
+                {{ results["description"]}}
+                <br><br>
+                {{ results["guidelines_intro"]}}
+                <ul>
+                  {% for bullet in results["bullets"] %}
+                    <li>{{ bullet }}</li>
+                  {% endfor %}
+                </ul>
+                {{ results["zip"]}}
+              </div>
+            </div>
           </div>
         {%endif%}
       <form action="predict" method="POST" enctype="multipart/form-data" class="zip-form">
           {% if prediction %}
             {{ zip_form.csrf_token }}
             <p>Put in your zip code below to get recycling facilities!</p>
-        <!-- class: zip-input -->
-            {{ zip_form.zip }}
-        <!-- class: zip-submit-btn -->
-            {{ zip_form.submit2 }}
-            {%for facility in facilities%}
+            <div class="zip-wrapper">
+          <!-- class: zip-input -->
+              {{ zip_form.zip }}
+          <!-- class: zip-submit-btn -->
+              {{ zip_form.submit2 }}
+            </div>
+            {% for facility in facilities %}
               <div class="facility">
-              {{ facility["Business Name"] }}
-              {{ facility["Address"] }}
-              {{ facility["Phone"] }}
-              {{ facility["Materials Accepted"] }}
-
+                <div class="facility-name">{{ facility["Business Name"] }}</div>
+                <div class="facility-address">{{ facility["Address"] }}</div>
+                <div class="facility-phone">{{ facility["Phone"] }}</div>
               </div>
             {% endfor %}
           {% endif %}

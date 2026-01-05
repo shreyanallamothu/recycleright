@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, session
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, SubmitField, validators
+from app.recycling_inf import results
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_string'
@@ -30,7 +31,9 @@ def predict():
                 tensor = transform_image(img_bytes)
                 prediction = get_prediction(tensor)
                 session['prediction'] = prediction
-                return render_template("index.html", file_form = file_form, zip_form = zip_form, prediction = prediction)
+                gif_file_path = "static/images/" + prediction + ".png"
+                session['gif_file_path'] = gif_file_path
+                return render_template("index.html", file_form = file_form, zip_form = zip_form, prediction = prediction, results = results[prediction], gif_file_path = gif_file_path)
             except Exception:
                 return render_template("index.html", file_form = file_form, prediction = "error during prediction")
     
@@ -39,7 +42,8 @@ def predict():
         zip = zip_form.zip.data
         url = build_url(prediction, zip)
         facilities = extract_information(url)
-        return render_template("index.html",file_form=file_form,zip_form=zip_form,prediction=prediction,facilities=facilities)
+        gif_file_path = session.get('gif_file_path')
+        return render_template("index.html",file_form=file_form,zip_form=zip_form,prediction=prediction,facilities=facilities, results = results[prediction], gif_file_path = gif_file_path)
     else:
         return render_template("index.html", file_form = file_form)
 
@@ -49,7 +53,7 @@ class PhotoForm(FlaskForm):
     submit1 = SubmitField('upload', render_kw={"class": "file-submit-btn"})
 
 class ZipForm(FlaskForm):
-    zip = StringField("zip", render_kw={"class": "zip-input"}, validators = [validators.DataRequired(), validators.Length(min=5, max=5)], )
+    zip = StringField("zip", render_kw={"class": "zip-input", "placeholder": "enter your ZIP code"}, validators = [validators.DataRequired(), validators.Length(min=5, max=5)], )
     submit2 = SubmitField('Upload', render_kw={"class": "zip-submit-btn"})
 
 @app.route('/about')
