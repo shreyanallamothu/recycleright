@@ -19,7 +19,7 @@
 <h2>The Process</h2>
 <p>This was my first time training a machine learning model in PyTorch. I compiled and labeled a custom dataset of common household items and fine-tuned a ResNet50 convolutional neural network to classify images of recyclables into disposal categories. It was rough at first…</p>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/shreyanallamothu29/recycleright/refs/heads/main/test_loss_after.png" width="400">
+  <img src="https://raw.githubusercontent.com/shreyanallamothu/recycleright/refs/heads/main/test_loss_before.png" width="400">
 </p>
 <p>But after many (many) batches and experimenting with hyperparameters like preprocessing and training step sizes, I got my model up to 95% testing accuracy!</p>
 <p align="center">
